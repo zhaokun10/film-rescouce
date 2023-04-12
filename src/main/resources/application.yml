@@ -1,0 +1,24 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/film?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 1235789k
+  mvc:
+    static-path-pattern: /**
+  web:
+    resources:
+      static-locations: classpath:/static,classpath:/public,classpath:/resources,classpath:/META-INF/resources
+# Mybatis??
+mybatis:
+  # ??XML???????????????
+  type-aliases-package: com.sht.filmrescource.model
+  # ??MyBatis?xml??????
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.sht.filmrescource.mapper: debug
+

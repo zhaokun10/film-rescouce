@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sht.filmrescource.mapper.FilmMapper">
+
+    <resultMap id="BaseResultMap" type="com.sht.filmrescource.model.Film">
+        <id column="film_id" property="filmId" jdbcType="BIGINT"/>
+        <result column="film_name" property="filmName" jdbcType="VARCHAR"/>
+        <result column="film_rating" property="filmRating" jdbcType="BIGINT"/>
+        <result column="film_url" property="filmUrl" jdbcType="VARCHAR"/>
+        <result column="show_time" property="showTime" jdbcType="BIGINT"/>
+        <result column="is_hot" property="isHot" jdbcType="BIGINT"/>
+        <result column="profile" property="profile" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findHotFilm" resultMap="BaseResultMap">
+        select *
+        from film.film
+        where is_hot = 1 limit 6
+    </select>
+    <select id="findNewFilm" resultMap="BaseResultMap">
+        select *
+        from film.film f
+        order by show_time desc limit 6
+    </select>
+    <select id="findNewHotFilm" resultMap="BaseResultMap">
+        select *
+        from film.film
+        where is_hot = 1
+        order by show_time desc limit 6
+    </select>
+    <select id="findAllFilm" resultMap="BaseResultMap">
+        select *
+        from film.film;
+    </select>
+    <select id="findLunBoFilm" resultMap="BaseResultMap">
+        select *
+        from film.film f
+        order by show_time desc limit 4
+    </select>
+    <select id="findAllHotFilm" resultMap="BaseResultMap">
+        select *
+        from film.film
+        where is_hot = 1
+    </select>
+    <select id="findAllRecommendedFilm" resultMap="BaseResultMap">
+        select *
+        from film.film
+        where is_hot = 1
+        order by show_time desc
+    </select>
+    <select id="searchFilm" resultMap="BaseResultMap">
+        <bind name="pattern" value="'%' + searchInfo + '%'" />
+        select *
+        from film.film
+        where film_name like #{pattern}
+    </select>
+    <select id="findFilmByFilmId" resultMap="BaseResultMap">
+        select * from film.film where film_id = #{filmId,jdbcType=BIGINT}
+    </select>
+</mapper>
