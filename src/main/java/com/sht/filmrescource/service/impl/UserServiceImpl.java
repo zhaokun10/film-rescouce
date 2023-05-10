@@ -1,11 +1,12 @@
 package com.sht.filmrescource.service.impl;
 
+import com.sht.filmrescource.entity.User;
 import com.sht.filmrescource.mapper.UserMapper;
-import com.sht.filmrescource.model.User;
 import com.sht.filmrescource.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -39,11 +40,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int deleteUserByUserId(Long userId) {
+                userMapper.deleteUserRole(userId);
         return userMapper.deleteUserByUserId(userId);
     }
 
     @Override
     public User findUserByUserId(Long userId) {
         return userMapper.findUserByUserId(userId);
+    }
+
+    @Override
+    public List<User> queryAllUser() {
+        return userMapper.queryAllUser();
+    }
+
+    @Override
+    public int insert(User user) {
+        userMapper.insertUser(user);
+        User newUser = userMapper.findUserByUserName(user.getUsername());
+        return userMapper.insertUserRole(newUser.getUserId(), 2L);
     }
 }

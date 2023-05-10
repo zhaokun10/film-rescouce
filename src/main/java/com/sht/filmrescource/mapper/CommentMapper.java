@@ -1,6 +1,6 @@
 package com.sht.filmrescource.mapper;
 
-import com.sht.filmrescource.model.Comment;
+import com.sht.filmrescource.entity.Comment;
 
 import java.util.List;
 
@@ -11,4 +11,6 @@ public interface CommentMapper {
    List<Comment> findCommentByFilmId(Long filmId);
 
     List<Comment> findAllComment();
+
+    int deleteComment(Long commentId);
 }

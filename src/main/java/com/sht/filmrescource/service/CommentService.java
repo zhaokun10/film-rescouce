@@ -1,6 +1,6 @@
 package com.sht.filmrescource.service;
 
-import com.sht.filmrescource.model.Comment;
+import com.sht.filmrescource.entity.Comment;
 
 import java.util.List;
 
@@ -11,4 +11,6 @@ public interface CommentService {
     List<Comment> findCommentByFilmId(Long filmId);
 
     List<Comment> findAllComment();
+
+    Boolean deleteComment(Long commentId);
 }

@@ -3,17 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sht.filmrescource.mapper.CommentMapper">
 
-    <resultMap id="BaseResultMap" type="com.sht.filmrescource.model.Comment">
+    <resultMap id="BaseResultMap" type="com.sht.filmrescource.entity.Comment">
         <id column="comment_id" property="commentId" jdbcType="BIGINT"/>
         <result column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="film_id" property="filmId" jdbcType="BIGINT"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="rating" property="rating" jdbcType="DOUBLE"/>
         <result column="time" property="time" jdbcType="TIMESTAMP"/>
-        <association property="user" column="user_id" javaType="com.sht.filmrescource.model.User" select="getUserName"/>
-        <association property="film" column="film_id" javaType="com.sht.filmrescource.model.Film" select="getFilmName"/>
+        <association property="user" column="user_id" javaType="com.sht.filmrescource.entity.User" select="getUserName"/>
+        <association property="film" column="film_id" javaType="com.sht.filmrescource.entity.Film" select="getFilmName"/>
      </resultMap>
-    <resultMap id="FilmResultMap" type="com.sht.filmrescource.model.Film">
+    <resultMap id="FilmResultMap" type="com.sht.filmrescource.entity.Film">
         <id column="film_id" property="filmId" jdbcType="BIGINT"/>
         <result column="film_name" property="filmName" jdbcType="VARCHAR"/>
         <result column="film_rating" property="filmRating" jdbcType="BIGINT"/>
@@ -22,7 +22,10 @@
         <result column="is_hot" property="isHot" jdbcType="BIGINT"/>
         <result column="profile" property="profile" jdbcType="VARCHAR"/>
     </resultMap>
-    <select id="getUserName" resultType="com.sht.filmrescource.model.User">
+    <delete id="deleteComment">
+        delete from film.comment where comment_id = #{commentId}
+    </delete>
+    <select id="getUserName" resultType="com.sht.filmrescource.entity.User">
         select username from film.user where user_id = #{userId, jdbcType=VARCHAR}
     </select>
     <select id="getFilmName" resultMap="FilmResultMap">

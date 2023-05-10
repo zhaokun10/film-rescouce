@@ -1,23 +1,35 @@
-package com.sht.filmrescource.model;
+package com.sht.filmrescource.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+/**
+ * (User)实体类
+ *
+ * @author makejava
+ * @since 2023-05-10 08:01:20
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-
+public class User implements Serializable {
+    private static final long serialVersionUID = -33593892843399642L;
+    
     private Long userId;
-
+    
     private String username;
-
+    
     private String password;
-
+    
+    private String email;
+    
     private String avatar;
 
-    private String email;
+    private String Phone;
+
 
     public Long getUserId() {
         return userId;
@@ -50,4 +62,14 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 }
+

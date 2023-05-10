@@ -1,6 +1,7 @@
 package com.sht.filmrescource.mapper;
 
-import com.sht.filmrescource.model.Film;
+import com.sht.filmrescource.entity.Country;
+import com.sht.filmrescource.entity.Film;
 
 import java.util.List;
 
@@ -23,4 +24,15 @@ public interface FilmMapper {
    List<Film> searchFilm(String searchInfo);
 
    Film findFilmByFilmId(Long filmId);
+   Film findFilmInfoByFilmId(Long filmId);
+
+   void updateImage(String fileName, Long filmId);
+
+   int insert(Film film);
+
+   Boolean updateFilm(Film film);
+
+   List<Country> getAllCountry();
+
+   int delete(Long filmId);
 }

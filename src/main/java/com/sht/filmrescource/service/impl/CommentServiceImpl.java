@@ -1,7 +1,7 @@
 package com.sht.filmrescource.service.impl;
 
 import com.sht.filmrescource.mapper.CommentMapper;
-import com.sht.filmrescource.model.Comment;
+import com.sht.filmrescource.entity.Comment;
 import com.sht.filmrescource.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +27,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comment> findAllComment() {
         return commentMapper.findAllComment();
+    }
+
+    @Override
+    public Boolean deleteComment(Long commentId) {
+        return commentMapper.deleteComment(commentId)>0;
     }
 }

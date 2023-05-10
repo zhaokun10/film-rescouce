@@ -3,22 +3,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sht.filmrescource.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.sht.filmrescource.model.User">
+    <resultMap id="BaseResultMap" type="com.sht.filmrescource.entity.User">
         <id column="user_id" property="userId" jdbcType="BIGINT"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="insertUser">
-        insert into user (username, password) values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+        insert into user (username, password,email,phone) values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
     </insert>
 
+    <insert id="insertUserRole">
+        insert into user_role_xref (user_id,role_id) values (#{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+    </insert>
     <update id="updateUserInfoByUserId">
         update user
         set password = #{password,jdbcType=VARCHAR},
-            email    = #{email,jdbcType=VARCHAR}
+            email    = #{email,jdbcType=VARCHAR},
+            phone = #{phone,jdbcType=VARCHAR}
         where user_id = #{userId,jdbcType=BIGINT}
     </update>
 
@@ -26,6 +31,9 @@
         delete
         from user
         where user_id = #{userId,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteUserRole">
+        delete from user_role_xref where user_id = #{userId,jdbcType=BIGINT}
     </delete>
 
     <select id="findUserByUserName" resultMap="BaseResultMap">
@@ -35,5 +43,8 @@
     </select>
     <select id="findUserByUserId" resultMap="BaseResultMap">
         select * from film.user where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <select id="queryAllUser" resultMap="BaseResultMap">
+        select u.* from user u  inner join user_role_xref ur on ur.user_id = u.user_id where ur.role_id  = 2
     </select>
 </mapper>

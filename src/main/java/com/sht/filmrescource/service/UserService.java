@@ -1,6 +1,8 @@
 package com.sht.filmrescource.service;
 
-import com.sht.filmrescource.model.User;
+import com.sht.filmrescource.entity.User;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -13,4 +15,8 @@ public interface UserService {
     int deleteUserByUserId(Long userId);
 
     User findUserByUserId(Long userId);
+
+    List<User> queryAllUser();
+
+    int insert(User user);
 }

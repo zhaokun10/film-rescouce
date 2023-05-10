@@ -1,4 +1,4 @@
-package com.sht.filmrescource.model;
+package com.sht.filmrescource.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
