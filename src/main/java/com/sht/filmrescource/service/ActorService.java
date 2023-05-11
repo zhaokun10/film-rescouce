@@ -13,36 +13,41 @@ import java.util.List;
 public interface ActorService {
 
     /**
-     * 通过ID查询单条数据
+     * 得到所有演员
      *
-     * @param id 主键
-     * @return 实例对象
+     * @return {@link List}<{@link Actor}>
      */
-    Actor queryById(Long id);
+    List<Actor> getAllActor();
 
     /**
-     * 新增数据
+     * 找演员信息通过演员id
      *
-     * @param actor 实例对象
-     * @return 实例对象
+     * @param actorId 演员id
+     * @return {@link Actor}
      */
-    Actor insert(Actor actor);
+    Actor findActorInfoByActorId(Long actorId);
 
     /**
-     * 修改数据
+     * 添加演员
      *
-     * @param actor 实例对象
-     * @return 实例对象
+     * @param actor 演员
+     * @return {@link Boolean}
      */
-    Actor update(Actor actor);
+    Boolean addActor(Actor actor);
 
     /**
-     * 通过主键删除数据
+     * 更新演员
      *
-     * @param id 主键
-     * @return 是否成功
+     * @param actor 演员
+     * @return {@link Boolean}
      */
-    boolean deleteById(Long id);
+    Boolean updateActor(Actor actor);
 
-    List<Actor> query();
+    /**
+     * 删除演员,演员id
+     *
+     * @param actorId 演员id
+     * @return {@link Boolean}
+     */
+    Boolean deleteActorByActorId(Long actorId);
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * (Actor)实体类
@@ -24,51 +25,12 @@ public class Actor implements Serializable {
 
     private String actorProfile;
 
-    private Long duties;
+    private Long countryId;
 
-    private String actorCountry;
+    private Long DutiesId;
 
+    private Country actorCountry;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getActorName() {
-        return actorName;
-    }
-
-    public void setActorName(String actorName) {
-        this.actorName = actorName;
-    }
-
-    public String getActorProfile() {
-        return actorProfile;
-    }
-
-    public void setActorProfile(String actorProfile) {
-        this.actorProfile = actorProfile;
-    }
-
-    public Long getDuties() {
-        return duties;
-    }
-
-    public void setDuties(Long duties) {
-        this.duties = duties;
-    }
-
-    public String getCountry() {
-        return actorCountry;
-    }
-
-    public void setCountry(String actorCountry) {
-        this.actorCountry = actorCountry;
-    }
-
+    private List<Duties> dutiesList;
 }
 

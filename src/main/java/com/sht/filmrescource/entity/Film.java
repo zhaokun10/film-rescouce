@@ -35,9 +35,11 @@ public class Film implements Serializable {
     
     private Long country;
     
-    private String type;
+    private Long type;
 
     private Country countryString;
+
+    private Type types;
 
     private List<Actor> actorList;
 
@@ -113,11 +115,11 @@ public class Film implements Serializable {
         this.country = country;
     }
 
-    public String getType() {
+    public Long getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Long type) {
         this.type = type;
     }
 

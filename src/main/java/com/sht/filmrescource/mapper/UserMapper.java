@@ -1,5 +1,6 @@
 package com.sht.filmrescource.mapper;
 
+import com.sht.filmrescource.entity.Film;
 import com.sht.filmrescource.entity.User;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface UserMapper {
 
    int insertUserRole(Long userId, Long roleId);
    int deleteUserRole(Long userId);
+
+   Integer insertUserCollect(Long userId, Long filmId);
+
+   List<Film> queryAllUserCollect(Long userId);
 }

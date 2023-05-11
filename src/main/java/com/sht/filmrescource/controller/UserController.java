@@ -1,5 +1,6 @@
 package com.sht.filmrescource.controller;
 
+import com.sht.filmrescource.entity.Film;
 import com.sht.filmrescource.entity.User;
 import com.sht.filmrescource.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,6 @@ public class UserController {
     int login(@RequestBody  Long userId){
         return userService.deleteUserByUserId(userId);
     }
-
-
     @PostMapping("/user/insert")
     int insert(@RequestBody  User user){
         return userService.insert(user);
@@ -48,5 +47,14 @@ public class UserController {
     @GetMapping("/query")
     ResponseEntity<List<User>> queryAllUser(){
         return ResponseEntity.ok(this.userService.queryAllUser());
+    }
+
+    @PostMapping("/user/collect/{id}")
+    ResponseEntity<Boolean> insertUserCollect(@PathVariable("id") Long userId, @RequestParam Long filmId){
+        return ResponseEntity.ok( userService.insertUserCollect(userId, filmId));
+    }
+    @GetMapping("/user/collect//query")
+    ResponseEntity<List<Film>> queryAllUserCollect(@RequestParam Long userId){
+        return ResponseEntity.ok(this.userService.queryAllUserCollect(userId));
     }
 }

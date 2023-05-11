@@ -35,4 +35,6 @@ public interface FilmMapper {
    List<Country> getAllCountry();
 
    int delete(Long filmId);
+
+   int addFilmActorDuties(Long filmId, Long actorId, Long dutiesId);
 }

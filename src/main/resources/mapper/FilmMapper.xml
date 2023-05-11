@@ -11,12 +11,15 @@
         <result property="showTime" column="show_time" jdbcType="INTEGER"/>
         <result property="isHot" column="is_hot" jdbcType="INTEGER"/>
         <result property="profile" column="profile" jdbcType="VARCHAR"/>
-        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="BIGINT"/>
         <association property="countryString">
             <result property="id" column="id"/>
             <result column="country_name" property="countryName"/>
         </association>
-        <collection property="actorList" ofType="com.sht.filmrescource.entity.Actor" column="filmId=film_id" select="selectActor">
+        <association property="types" column="filmId=film_id" select="selectTypeByFilmId"/>
+
+        <collection property="actorList" ofType="com.sht.filmrescource.entity.Actor" column="filmId=film_id"
+                    select="selectActor">
 
         </collection>
     </resultMap>
@@ -26,23 +29,43 @@
         <result column="country_name" property="countryName"/>
     </resultMap>
 
-    <resultMap id="ActorMap" type="com.sht.filmrescource.entity.Actor">
-        <result property="id" column="id" jdbcType="BIGINT"/>
+    <resultMap type="com.sht.filmrescource.entity.Actor" id="ActorMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="actorName" column="actor_name" jdbcType="VARCHAR"/>
         <result property="actorProfile" column="actor_profile" jdbcType="VARCHAR"/>
-        <result property="duties" column="duties" jdbcType="INTEGER"/>
-        <result property="actorCountry" column="actor_country" jdbcType="VARCHAR"/>
+        <result property="countryId" column="country" jdbcType="BIGINT"/>
+        <collection property="dutiesList" ofType="com.sht.filmrescource.entity.Duties" column="actorId=id" select="selectDutiesByActorId"/>
     </resultMap>
 
+
     <select id="selectActor" resultMap="ActorMap">
-        select * from actor a
-            inner join film_actro_xref fa on fa.actor_id = a.id
-inner join film f on f.film_id = fa.film_id
-where f.film_id = #{filmId}
+        select *
+        from actor a
+                 inner join film_actro_xref fa on fa.actor_id = a.id
+                 inner join film f on f.film_id = fa.film_id
+        where f.film_id = #{filmId}
+    </select>
+
+    <select id="selectDutiesByActorId" resultMap="com.sht.filmrescource.mapper.DutiesMapper.DutiesMap">
+        select * from duties d
+                          inner join film.film_actro_xref fa on fa.duties_id = d.id
+                          inner join actor a on a.id = fa.actor_id
+        where a.id = #{actorId}
+    </select>
+
+    <select id="selectTypeByFilmId" resultMap="com.sht.filmrescource.mapper.TypeMapper.TypeMap">
+        select *
+        from type t
+                 inner join film f on f.type = t.id
+        where f.film_id = #{filmId}
     </select>
     <insert id="insert" keyProperty="filmId" useGeneratedKeys="true">
-        insert into film(film_name,film_url, show_time, profile, type, country)
-        values (#{filmName},#{filmUrl}, #{showTime}, #{profile}, #{type}, #{country})
+        insert into film(film_name, film_url, show_time, profile, type, country)
+        values (#{filmName}, #{filmUrl}, #{showTime}, #{profile}, #{type}, #{country})
+    </insert>
+    <insert id="addFilmActorDuties">
+        insert into film.film_actro_xref (film_id, actor_id, duties_id)
+        values (#{filmId},#{actorId},#{dutiesId})
     </insert>
     <update id="updateImage">
         update film
@@ -51,15 +74,18 @@ where f.film_id = #{filmId}
     </update>
     <update id="updateFilm">
         update film
-        set film_name = #{filmName} ,film_url = #{filmUrl},
+        set film_name = #{filmName},
+            film_url  = #{filmUrl},
             show_time = #{showTime},
-            is_hot = #{isHot},
-            country = #{country},
-            type = #{type}
+            is_hot    = #{isHot},
+            country   = #{country},
+            type      = #{type}
         where film_id = #{filmId}
     </update>
     <delete id="delete">
-        delete from film.film where film_id = #{filmId}
+        delete
+        from film.film
+        where film_id = #{filmId}
     </delete>
 
     <select id="findHotFilm" resultMap="BaseResultMap">
@@ -128,6 +154,7 @@ where f.film_id = #{filmId}
               #{filmId,jdbcType=BIGINT}
     </select>
     <select id="getAllCountry" resultMap="CountryMap">
-        select * from film.country
+        select *
+        from film.country
     </select>
 </mapper>

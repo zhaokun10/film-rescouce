@@ -1,5 +1,6 @@
 package com.sht.filmrescource.service.impl;
 
+import com.sht.filmrescource.entity.Film;
 import com.sht.filmrescource.entity.User;
 import com.sht.filmrescource.mapper.UserMapper;
 import com.sht.filmrescource.service.UserService;
@@ -59,5 +60,15 @@ public class UserServiceImpl implements UserService {
         userMapper.insertUser(user);
         User newUser = userMapper.findUserByUserName(user.getUsername());
         return userMapper.insertUserRole(newUser.getUserId(), 2L);
+    }
+
+    @Override
+    public Boolean insertUserCollect(Long userId, Long filmId) {
+        return userMapper.insertUserCollect(userId, filmId)>0;
+    }
+
+    @Override
+    public List<Film> queryAllUserCollect(Long userId) {
+        return userMapper.queryAllUserCollect(userId);
     }
 }

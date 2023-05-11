@@ -80,7 +80,11 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Boolean insert(Film film) {
-        return filmMapper.insert(film)>0;
+        filmMapper.insert(film);
+        film.getActorList().forEach(actor -> {
+            filmMapper.addFilmActorDuties(film.getFilmId(), actor.getId(),actor.getDutiesId());
+        });
+        return true;
     }
 
     @Override

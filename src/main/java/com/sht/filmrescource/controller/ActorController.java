@@ -24,58 +24,57 @@ public class ActorController {
     private ActorService actorService;
 
     /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("{id}")
-    public ResponseEntity<Actor> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.actorService.queryById(id));
-    }
-
-    /**
-     * 查询通过id
+     * 得到所有演员
      *
      * @return {@link ResponseEntity}<{@link List}<{@link Actor}>>
      */
     @GetMapping("/all")
-    public ResponseEntity<List<Actor>> queryById() {
-        return ResponseEntity.ok(this.actorService.query());
+    ResponseEntity<List<Actor>> getAllActor(){
+        return ResponseEntity.ok(actorService.getAllActor());
     }
 
     /**
-     * 新增数据
+     * 通过演员id找演员信息
      *
-     * @param actor 实体
-     * @return 新增结果
+     * @param actorId 演员id
+     * @return {@link ResponseEntity}<{@link Actor}>
      */
-    @PostMapping("/insert")
-    public ResponseEntity<Actor> add(Actor actor) {
-        return ResponseEntity.ok(this.actorService.insert(actor));
+    @GetMapping("/findActorInfo")
+    ResponseEntity<Actor> findActorInfoByActorId(@RequestParam Long actorId){
+        return ResponseEntity.ok(actorService.findActorInfoByActorId(actorId));
     }
 
     /**
-     * 编辑数据
+     * 添加演员
      *
-     * @param actor 实体
-     * @return 编辑结果
+     * @param actor 演员
+     * @return {@link ResponseEntity}<{@link Boolean}>
      */
-    @PostMapping("/update")
-    public ResponseEntity<Actor> edit(Actor actor) {
-        return ResponseEntity.ok(this.actorService.update(actor));
+    @PostMapping("/addActor")
+    ResponseEntity<Boolean> addActor(@RequestBody Actor actor){
+        return ResponseEntity.ok(actorService.addActor(actor));
     }
 
     /**
-     * 删除数据
+     * 更新演员
      *
-     * @param id 主键
-     * @return 删除是否成功
+     * @param actor 演员
+     * @return {@link ResponseEntity}<{@link Boolean}>
      */
-    @PostMapping("/delete")
-    public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.actorService.deleteById(id));
+    @PostMapping("/updateActor")
+    ResponseEntity<Boolean> updateActor(@RequestBody Actor actor) {
+        return ResponseEntity.ok(actorService.updateActor(actor));
     }
 
+    /**
+     * 删除演员,演员id
+     *
+     * @param actorId 演员id
+     * @return {@link ResponseEntity}<{@link Boolean}>
+     */
+    @PostMapping("/deleteActor")
+    ResponseEntity<Boolean> deleteActorByActorId(@RequestBody Long actorId){
+        return ResponseEntity.ok(actorService.deleteActorByActorId(actorId));
+    }
 }
 

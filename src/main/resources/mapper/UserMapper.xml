@@ -13,17 +13,24 @@
     </resultMap>
 
     <insert id="insertUser">
-        insert into user (username, password,email,phone) values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+        insert into user (username, password, email, phone)
+        values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR})
     </insert>
 
     <insert id="insertUserRole">
-        insert into user_role_xref (user_id,role_id) values (#{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+        insert into user_role_xref (user_id, role_id)
+        values (#{userId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertUserCollect">
+        insert into film.user_collect (user_id, film_id)
+        values (#{userId}, #{filmId})
     </insert>
     <update id="updateUserInfoByUserId">
         update user
         set password = #{password,jdbcType=VARCHAR},
             email    = #{email,jdbcType=VARCHAR},
-            phone = #{phone,jdbcType=VARCHAR}
+            phone    = #{phone,jdbcType=VARCHAR}
         where user_id = #{userId,jdbcType=BIGINT}
     </update>
 
@@ -33,7 +40,9 @@
         where user_id = #{userId,jdbcType=BIGINT}
     </delete>
     <delete id="deleteUserRole">
-        delete from user_role_xref where user_id = #{userId,jdbcType=BIGINT}
+        delete
+        from user_role_xref
+        where user_id = #{userId,jdbcType=BIGINT}
     </delete>
 
     <select id="findUserByUserName" resultMap="BaseResultMap">
@@ -42,9 +51,20 @@
         where username = #{username,jdbcType=VARCHAR}
     </select>
     <select id="findUserByUserId" resultMap="BaseResultMap">
-        select * from film.user where user_id = #{userId,jdbcType=BIGINT}
+        select *
+        from film.user
+        where user_id = #{userId,jdbcType=BIGINT}
     </select>
     <select id="queryAllUser" resultMap="BaseResultMap">
-        select u.* from user u  inner join user_role_xref ur on ur.user_id = u.user_id where ur.role_id  = 2
+        select u.*
+        from user u
+                 inner join user_role_xref ur on ur.user_id = u.user_id
+        where ur.role_id = 2
+    </select>
+    <select id="queryAllUserCollect" resultType="com.sht.filmrescource.entity.Film">
+        select *
+        from film.user_collect uc
+                 inner join film f on f.id = uc.film_id
+        where uc.user_id = #{userId}
     </select>
 </mapper>

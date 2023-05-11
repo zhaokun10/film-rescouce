@@ -18,56 +18,70 @@ import java.util.List;
 @Service("actorService")
 public class ActorServiceImpl implements ActorService {
     @Resource
-    private ActorMapper actorDao;
+    private ActorMapper actorMapper;
+
 
     /**
-     * 通过ID查询单条数据
+     * 得到所有演员
      *
-     * @param id 主键
-     * @return 实例对象
+     * @return {@link List}<{@link Actor}>
      */
     @Override
-    public Actor queryById(Long id) {
-        return this.actorDao.queryById(id);
+    public List<Actor> getAllActor() {
+        return actorMapper.getAllActor();
     }
 
     /**
-     * 新增数据
+     * 找演员信息通过演员id
      *
-     * @param actor 实例对象
-     * @return 实例对象
+     * @param actorId 演员id
+     * @return {@link Actor}
      */
     @Override
-    public Actor insert(Actor actor) {
-        this.actorDao.insert(actor);
-        return actor;
+    public Actor findActorInfoByActorId(Long actorId) {
+        return actorMapper.findActorInfoByActorId(actorId);
     }
 
     /**
-     * 修改数据
+     * 添加演员
      *
-     * @param actor 实例对象
-     * @return 实例对象
+     * @param actor 演员
+     * @return {@link Boolean}
      */
     @Override
-    public Actor update(Actor actor) {
-        this.actorDao.update(actor);
-        return this.queryById(actor.getId());
+    public Boolean addActor(Actor actor) {
+       actorMapper.addActor(actor);
+        System.out.println(actor.getId());
+        actor.getDutiesList().forEach(duties -> {
+            actorMapper.addActorDuties(actor.getId(), duties.getId());
+        });
+        return actor.getId()!=null;
     }
 
     /**
-     * 通过主键删除数据
+     * 更新演员
      *
-     * @param id 主键
-     * @return 是否成功
+     * @param actor 演员
+     * @return {@link Boolean}
      */
     @Override
-    public boolean deleteById(Long id) {
-        return this.actorDao.deleteById(id) > 0;
+    public Boolean updateActor(Actor actor) {
+        actorMapper.deleteActorDuties(actor.getId());
+        actor.getDutiesList().forEach(duties -> {
+            actorMapper.addActorDuties(actor.getId(), duties.getId());
+        });
+        return actorMapper.updateActor(actor)>0;
     }
 
+    /**
+     * 删除演员,演员id
+     *
+     * @param actorId 演员id
+     * @return {@link Boolean}
+     */
     @Override
-    public List<Actor> query() {
-        return this.actorDao.queryAllByLimit();
+    public Boolean deleteActorByActorId(Long actorId) {
+        actorMapper.deleteActorDuties(actorId);
+        return actorMapper.deleteActorByActorId(actorId)>0;
     }
 }

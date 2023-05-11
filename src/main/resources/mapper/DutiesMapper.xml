@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sht.filmrescource.mapper.DutiesMapper">
+
+    <resultMap type="com.sht.filmrescource.entity.Duties" id="DutiesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="dutiesName" column="duties_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="getAllDuties" resultMap="DutiesMap">
+        select
+          id, duties_name
+        from duties
+    </select>
+    <select id="findDutiesByDutiesId" resultMap="DutiesMap">
+        select
+            id, duties_name
+        from duties where id= #{dutiesId}
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="addDuties" keyProperty="id" useGeneratedKeys="true">
+        insert into duties(duties_name)
+        values (#{dutiesName})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateDuties">
+        update duties
+        <set>
+            <if test="dutiesName != null and dutiesName != ''">
+                duties_name = #{dutiesName},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteDuties">
+        delete from duties where id = #{dutiesId}
+    </delete>
+
+</mapper>
+

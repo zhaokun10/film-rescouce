@@ -1,5 +1,6 @@
 package com.sht.filmrescource.service;
 
+import com.sht.filmrescource.entity.Film;
 import com.sht.filmrescource.entity.User;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface UserService {
     List<User> queryAllUser();
 
     int insert(User user);
+
+    Boolean insertUserCollect(Long userId, Long filmId);
+
+    List<Film> queryAllUserCollect(Long userId);
 }
